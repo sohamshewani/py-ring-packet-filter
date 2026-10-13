@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel>=0.40.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py-ring-packet-filter"
+version = "0.1.0"
+description = "A high-performance ring-buffer packet filter in Python with C/C++ extensions"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: C",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Networking",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-benchmark>=4.0.0",
+]
+
+[tool.setuptools]
+packages = ["py_ring_packet_filter"]
+
+[tool.setuptools.ext-modules]
+# Define C/C++ extensions with production optimization flags (-O3, -Wall, -Wextra)
+# Replace 'py_ring_packet_filter._native' with your actual extension module path if different
+[extensions."py_ring_packet_filter._native"]
+sources = ["src/native/module.cpp"]
+extra_compile_args = ["-O3", "-Wall", "-Wextra", "-std=c++17"]
+
+# Task orchestration configuration (using standard build/test hooks and scripts)
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+[tool.hatch.envs.default]
+# Fallback definitions for task runners if compatible with hatch, 
+# but we supply explicit setup commands below for universal tool compatibility.
